@@ -1,6 +1,5 @@
-
-<div class="bg-slate-800 p-4 sm:p-6 rounded-2xl shadow-lg h-full min-h-[300px] flex flex-col">
-  <h3 class="text-lg font-semibold text-slate-100 mb-4">Live Consumption Breakdown</h3>
+<div class="bg-white p-4 sm:p-6 rounded-2xl h-full min-h-[300px] flex flex-col shadow-md">
+  <h3 class="text-lg font-medium text-gray-800 mb-4">Desglose de Consumo Actual</h3>
   <div class="flex-grow w-full h-full">
     @if (data().length > 0) {
       <ngx-charts-pie-chart
@@ -13,8 +12,8 @@
         [animations]="true">
       </ngx-charts-pie-chart>
     } @else {
-      <div class="flex items-center justify-center h-full text-slate-400">
-        <p>No devices are currently running.</p>
+      <div class="flex items-center justify-center h-full text-gray-500">
+        <p>No hay dispositivos encendidos.</p>
       </div>
     }
   </div>

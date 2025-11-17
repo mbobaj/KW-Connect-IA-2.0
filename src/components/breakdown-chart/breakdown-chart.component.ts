@@ -1,4 +1,3 @@
-
 import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
@@ -12,13 +11,13 @@ export class BreakdownChartComponent {
   data = input.required<any[]>();
 
   // Chart options
-  gradient: boolean = true;
+  gradient: boolean = false;
   showLegend: boolean = false;
   showLabels: boolean = true;
   isDoughnut: boolean = true;
   legendPosition: string = 'below';
 
   colorScheme = {
-    domain: ['#2563eb', '#f97316', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899']
+    domain: ['#42A5F5', '#66BB6A', '#FFA726', '#EF5350', '#AB47BC', '#26A69A']
   };
 }

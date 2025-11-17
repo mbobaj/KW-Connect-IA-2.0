@@ -26,9 +26,9 @@ export class DeviceListComponent {
 
   getStatusColor(status: DeviceStatus): string {
     switch (status) {
-      case 'on': return 'bg-green-500/80 text-green-100';
-      case 'off': return 'bg-slate-600/80 text-slate-200';
-      case 'standby': return 'bg-yellow-500/80 text-yellow-100';
+      case 'on': return 'bg-green-100 text-green-800';
+      case 'off': return 'bg-gray-100 text-gray-700';
+      case 'standby': return 'bg-yellow-100 text-yellow-800';
     }
   }
 

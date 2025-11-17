@@ -1,4 +1,3 @@
-
 import { Component, ChangeDetectionStrategy, computed, inject } from '@angular/core';
 import { PowerService } from './services/power.service';
 import { HeaderComponent } from './components/header/header.component';
@@ -42,7 +41,8 @@ export class AppComponent {
     const dailyKWh = this.devices().reduce((sum, d) => sum + d.todayKWh, 0);
     const estimatedMonthlyKWh = dailyKWh * 30;
     const cost = estimatedMonthlyKWh * this.CLP_PER_KWH;
-    return new Intl.NumberFormat('es-CL', { style: 'currency', currency: 'CLP' }).format(cost);
+    // Return only the number part, as the currency unit is handled in the template.
+    return new Intl.NumberFormat('es-CL').format(Math.round(cost));
   });
 
   kpiPeakToday = computed(() => {

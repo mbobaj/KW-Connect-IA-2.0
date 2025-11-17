@@ -1,31 +1,30 @@
-
-<main class="container mx-auto p-4 sm:p-6 lg:p-8">
+<main class="container mx-auto p-4 sm:p-6">
   <app-header></app-header>
 
   <!-- KPI Cards Grid -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6">
     <app-kpi-card
-      title="Current Consumption"
+      title="Consumo Actual"
       [value]="kpiCurrentConsumption()"
       unit="kWh"
       iconPath="M13 10V3L4 14h7v7l9-11h-7z">
     </app-kpi-card>
     <app-kpi-card
-      title="Total Consumption Today"
+      title="Consumo Total Hoy"
       [value]="kpiTotalToday()"
       unit="kWh"
       iconPath="M9 17v-4h6v4H9zm2-2h2v-2h-2v2zM5 21V3h14v18H5zm2-2h10V5H7v14z">
     </app-kpi-card>
     <app-kpi-card
-      title="Peak Consumption Today"
+      title="Pico de Consumo Hoy"
       [value]="kpiPeakToday().value"
       [unit]="'kWh @ ' + kpiPeakToday().time"
       iconPath="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z">
     </app-kpi-card>
     <app-kpi-card
-      title="Est. Monthly Cost"
+      title="Costo Mensual Est."
       [value]="kpiMonthlyCost()"
-      unit=""
+      unit="CLP"
       iconPath="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z">
     </app-kpi-card>
   </div>

@@ -1,4 +1,3 @@
-
 import { Component, ChangeDetectionStrategy, input } from '@angular/core';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
@@ -19,11 +18,11 @@ export class HistoryChartComponent {
   yAxis: boolean = true;
   showYAxisLabel: boolean = true;
   showXAxisLabel: boolean = false;
-  xAxisLabel: string = 'Hour';
-  yAxisLabel: string = 'Consumption (kWh)';
+  xAxisLabel: string = 'Hora';
+  yAxisLabel: string = 'Consumo (kWh)';
   timeline: boolean = false;
 
   colorScheme = {
-    domain: ['#f97316'] // Orange color
+    domain: ['#42A5F5'] // Material Design Blue
   };
 }

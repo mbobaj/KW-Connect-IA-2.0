@@ -1,5 +1,5 @@
 {
-  "name": "KW-Connect: Electrical Consumption Dashboard",
-  "description": "A modern, real-time dashboard to monitor a household's electrical energy consumption. It features key performance indicators, historical data charts, and device-specific controls.",
+  "name": "KW-Connect: Panel de Consumo Eléctrico",
+  "description": "Un panel moderno y en tiempo real para monitorear el consumo de energía eléctrica de un hogar. Incluye indicadores clave de rendimiento, gráficos de datos históricos y controles específicos por dispositivo.",
   "requestFramePermissions": []
 }
