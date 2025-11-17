@@ -1,0 +1,14 @@
+
+<div class="bg-slate-800 p-4 sm:p-6 rounded-2xl shadow-lg flex items-center space-x-4 transition-transform duration-300 hover:scale-105 hover:bg-slate-700">
+  <div class="bg-slate-900 p-3 rounded-full">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" [attr.d]="iconPath()" />
+    </svg>
+  </div>
+  <div>
+    <p class="text-sm text-slate-400">{{ title() }}</p>
+    <p class="text-xl sm:text-2xl font-bold text-slate-100">
+      {{ value() }} <span class="text-base font-medium text-slate-300">{{ unit() }}</span>
+    </p>
+  </div>
+</div>

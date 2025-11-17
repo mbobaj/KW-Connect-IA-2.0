@@ -1,0 +1,27 @@
+
+<div class="bg-slate-800 p-4 sm:p-6 rounded-2xl shadow-lg h-full min-h-[300px] flex flex-col">
+  <h3 class="text-lg font-semibold text-slate-100 mb-4">Consumption History (Last 24h)</h3>
+  <div class="flex-grow w-full h-full">
+    @if (data().length > 0) {
+      <ngx-charts-line-chart
+        [results]="data()"
+        [legend]="legend"
+        [xAxis]="xAxis"
+        [yAxis]="yAxis"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        [scheme]="colorScheme"
+        [animations]="animations"
+        [autoScale]="true"
+        [yAxisTicks]="[0, 0.5, 1.0, 1.5, 2.0]"
+        class="h-full w-full">
+      </ngx-charts-line-chart>
+    } @else {
+      <div class="flex items-center justify-center h-full text-slate-400">
+        <p>No historical data available.</p>
+      </div>
+    }
+  </div>
+</div>

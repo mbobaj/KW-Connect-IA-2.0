@@ -1,0 +1,5 @@
+{
+  "name": "KW-Connect: Electrical Consumption Dashboard",
+  "description": "A modern, real-time dashboard to monitor a household's electrical energy consumption. It features key performance indicators, historical data charts, and device-specific controls.",
+  "requestFramePermissions": []
+}

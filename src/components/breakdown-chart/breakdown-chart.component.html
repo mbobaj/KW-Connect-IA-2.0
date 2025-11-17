@@ -1,0 +1,21 @@
+
+<div class="bg-slate-800 p-4 sm:p-6 rounded-2xl shadow-lg h-full min-h-[300px] flex flex-col">
+  <h3 class="text-lg font-semibold text-slate-100 mb-4">Live Consumption Breakdown</h3>
+  <div class="flex-grow w-full h-full">
+    @if (data().length > 0) {
+      <ngx-charts-pie-chart
+        [results]="data()"
+        [gradient]="gradient"
+        [legend]="showLegend"
+        [labels]="showLabels"
+        [doughnut]="isDoughnut"
+        [scheme]="colorScheme"
+        [animations]="true">
+      </ngx-charts-pie-chart>
+    } @else {
+      <div class="flex items-center justify-center h-full text-slate-400">
+        <p>No devices are currently running.</p>
+      </div>
+    }
+  </div>
+</div>
