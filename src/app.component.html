@@ -29,18 +29,19 @@
     </app-kpi-card>
   </div>
 
-  <!-- Charts and Device List Grid -->
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:col-span-2">
-      <div class="md:col-span-2 lg:col-span-1">
-          <app-history-chart [data]="historyChartData()"></app-history-chart>
-      </div>
-      <div class="md:col-span-2 lg:col-span-1">
-          <app-breakdown-chart [data]="breakdownChartData()"></app-breakdown-chart>
-      </div>
+  <!-- Layout Grid for Charts, Map, and Device List -->
+  <div class="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-6">
+    <div class="lg:col-span-3">
+      <app-house-layout [devices]="devices()"></app-house-layout>
     </div>
     <div class="lg:col-span-2">
-      <app-device-list [devices]="devices()" (toggleDevice)="handleToggleDevice($event)"></app-device-list>
+      <app-device-list [devices]="devices()" (setStatus)="handleSetDeviceStatus($event)"></app-device-list>
+    </div>
+    <div class="lg:col-span-3">
+       <app-history-chart [data]="historyChartData()"></app-history-chart>
+    </div>
+    <div class="lg:col-span-2">
+      <app-breakdown-chart [data]="breakdownChartData()"></app-breakdown-chart>
     </div>
   </div>
 </main>

@@ -5,6 +5,8 @@ import { KpiCardComponent } from './components/kpi-card/kpi-card.component';
 import { HistoryChartComponent } from './components/history-chart/history-chart.component';
 import { BreakdownChartComponent } from './components/breakdown-chart/breakdown-chart.component';
 import { DeviceListComponent } from './components/device-list/device-list.component';
+import { HouseLayoutComponent } from './components/house-layout/house-layout.component';
+import { DeviceStatus } from './services/power.types';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +15,8 @@ import { DeviceListComponent } from './components/device-list/device-list.compon
     KpiCardComponent,
     HistoryChartComponent,
     BreakdownChartComponent,
-    DeviceListComponent
+    DeviceListComponent,
+    HouseLayoutComponent
   ],
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -90,7 +93,7 @@ export class AppComponent {
     }).sort((a,b) => parseInt(a.name) - parseInt(b.name));
   }
   
-  handleToggleDevice(deviceName: string) {
-    this.powerService.toggleDeviceStatus(deviceName);
+  handleSetDeviceStatus(event: {deviceId: string, status: DeviceStatus}) {
+    this.powerService.setDeviceStatus(event.deviceId, event.status);
   }
 }

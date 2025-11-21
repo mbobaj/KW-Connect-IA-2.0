@@ -1,14 +1,45 @@
-import { Component, ChangeDetectionStrategy, input, output } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, signal } from '@angular/core';
 import { Device, DeviceStatus } from '../../services/power.types';
 
 @Component({
-  selector: 'app-device-list',
-  templateUrl: './device-list.component.html',
+  selector: 'app-house-layout',
+  templateUrl: './house-layout.component.html',
+  styles: [`
+    .device-pulse {
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.7;
+        transform: scale(1.1);
+      }
+    }
+  `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class DeviceListComponent {
+export class HouseLayoutComponent {
   devices = input.required<Device[]>();
-  setStatus = output<{deviceId: string, status: DeviceStatus}>();
+  hoveredDevice = signal<Device | null>(null);
+
+  getStatusColorClass(status: DeviceStatus): string {
+    switch (status) {
+      case 'on': return 'text-green-500';
+      case 'off': return 'text-gray-400';
+      case 'standby': return 'text-yellow-500';
+    }
+  }
+
+  onDeviceMouseOver(device: Device) {
+    this.hoveredDevice.set(device);
+  }
+
+  onDeviceMouseOut() {
+    this.hoveredDevice.set(null);
+  }
 
   getIconPath(icon: string): string {
     switch (icon) {
@@ -22,17 +53,5 @@ export class DeviceListComponent {
       case 'washing-machine': return 'M9.01 15.01L9 15l.01.01zm5.98-5.98L15 9.01l-.01-.01zM9 5H7v2h2V5zm10 0h-2v2h2V5zm-4 0h-2v2h2V5zm4 14H5V9h14v10zm0-12H5c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zM9 11h6v6H9v-6z';
       default: return '';
     }
-  }
-
-  getStatusColor(status: DeviceStatus): string {
-    switch (status) {
-      case 'on': return 'bg-green-100 text-green-800';
-      case 'off': return 'bg-gray-100 text-gray-700';
-      case 'standby': return 'bg-yellow-100 text-yellow-800';
-    }
-  }
-
-  onSetStatus(deviceId: string, status: DeviceStatus) {
-    this.setStatus.emit({ deviceId, status });
   }
 }

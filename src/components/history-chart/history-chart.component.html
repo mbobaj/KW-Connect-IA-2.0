@@ -2,21 +2,24 @@
   <h3 class="text-lg font-medium text-gray-800 mb-4">Historial de Consumo (Últimas 24h)</h3>
   <div class="flex-grow w-full h-full">
     @if (data().length > 0) {
-      <ngx-charts-line-chart
+      <ngx-charts-area-chart
         [results]="data()"
         [legend]="legend"
         [xAxis]="xAxis"
         [yAxis]="yAxis"
         [showXAxisLabel]="showXAxisLabel"
         [showYAxisLabel]="showYAxisLabel"
-        [xAxisLabel]="xAxisLabel"
         [yAxisLabel]="yAxisLabel"
         [scheme]="colorScheme"
         [animations]="animations"
         [autoScale]="true"
-        [yAxisTicks]="[0, 0.5, 1.0, 1.5, 2.0]"
+        [gradient]="gradient"
+        [showGridLines]="showGridLines"
+        [tooltipDisabled]="tooltipDisabled"
+        [xAxisTickFormatting]="xAxisTickFormatting"
+        [yAxisTickFormatting]="yAxisTickFormatting"
         class="h-full w-full">
-      </ngx-charts-line-chart>
+      </ngx-charts-area-chart>
     } @else {
       <div class="flex items-center justify-center h-full text-gray-500">
         <p>No hay datos históricos disponibles.</p>

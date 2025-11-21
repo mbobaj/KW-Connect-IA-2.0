@@ -1,4 +1,4 @@
-<div class="bg-white p-4 sm:p-6 rounded-2xl col-span-1 lg:col-span-2 shadow-md">
+<div class="bg-white p-4 sm:p-6 rounded-2xl shadow-md">
   <h3 class="text-lg font-medium text-gray-800 mb-4">Control de Dispositivos</h3>
   <div class="overflow-x-auto">
     <table class="w-full text-left">
@@ -30,18 +30,35 @@
               </span>
             </td>
             <td class="p-2 sm:p-4 text-center">
-              @if (device.status !== 'standby') {
-                <label class="relative inline-flex items-center cursor-pointer">
-                  <input type="checkbox" [checked]="device.status === 'on'" (change)="onToggle(device.deviceName)" class="sr-only peer">
-                  <div class="w-11 h-6 bg-gray-200 rounded-full peer
-                              peer-checked:bg-blue-200
-                              after:content-[''] after:absolute after:top-[2px] after:left-[2px]
-                              after:bg-white after:border-gray-300 after:border after:rounded-full
-                              after:h-5 after:w-5 after:transition-all
-                              peer-checked:after:translate-x-full peer-checked:after:border-transparent peer-checked:after:bg-blue-500">
-                  </div>
-                </label>
-              }
+              <div class="inline-flex rounded-lg" role="group">
+                <button
+                  type="button"
+                  (click)="onSetStatus(device.deviceId, 'on')"
+                  class="px-4 py-1.5 text-xs font-semibold capitalize transition-colors duration-200 ease-in-out rounded-l-lg focus:z-10"
+                  [class]="device.status === 'on'
+                      ? 'bg-green-500 text-white ring-1 ring-green-500'
+                      : 'bg-white text-gray-700 hover:bg-gray-50 ring-1 ring-inset ring-gray-300'">
+                  On
+                </button>
+                <button
+                  type="button"
+                  (click)="onSetStatus(device.deviceId, 'standby')"
+                  class="px-4 py-1.5 text-xs font-semibold capitalize transition-colors duration-200 ease-in-out -ml-px focus:z-10"
+                  [class]="device.status === 'standby'
+                      ? 'bg-yellow-500 text-white ring-1 ring-yellow-500'
+                      : 'bg-white text-gray-700 hover:bg-gray-50 ring-1 ring-inset ring-gray-300'">
+                  Standby
+                </button>
+                <button
+                  type="button"
+                  (click)="onSetStatus(device.deviceId, 'off')"
+                  class="px-4 py-1.5 text-xs font-semibold capitalize transition-colors duration-200 ease-in-out rounded-r-lg -ml-px focus:z-10"
+                  [class]="device.status === 'off'
+                      ? 'bg-gray-600 text-white ring-1 ring-gray-600'
+                      : 'bg-white text-gray-700 hover:bg-gray-50 ring-1 ring-inset ring-gray-300'">
+                  Off
+                </button>
+              </div>
             </td>
           </tr>
         }

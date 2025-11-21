@@ -1,0 +1,55 @@
+<div class="bg-white p-4 sm:p-6 rounded-2xl h-full min-h-[350px] flex flex-col shadow-md relative">
+  <h3 class="text-lg font-medium text-gray-800 mb-4">Plano de la Casa</h3>
+  <div class="flex-grow w-full h-full flex items-center justify-center">
+    <svg viewBox="0 0 400 250" class="w-full h-full">
+      <!-- House Walls -->
+      <rect x="1" y="1" width="398" height="248" fill="#F7FAFC" stroke="#A0AEC0" stroke-width="2" rx="5"></rect>
+      
+      <!-- Room dividers -->
+      <line x1="150" y1="1" x2="150" y2="249" stroke="#CBD5E0" stroke-width="1.5"></line>
+      <line x1="300" y1="1" x2="300" y2="249" stroke="#CBD5E0" stroke-width="1.5"></line>
+      <line x1="150" y1="180" x2="300" y2="180" stroke="#CBD5E0" stroke-width="1.5"></line>
+
+      <!-- Room Labels -->
+      <text x="75" y="30" font-family="Poppins, sans-serif" font-size="14" fill="#718096" text-anchor="middle">Dormitorio</text>
+      <text x="225" y="30" font-family="Poppins, sans-serif" font-size="14" fill="#718096" text-anchor="middle">Living</text>
+      <text x="350" y="30" font-family="Poppins, sans-serif" font-size="14" fill="#718096" text-anchor="middle">Cocina</text>
+      <text x="225" y="210" font-family="Poppins, sans-serif" font-size="14" fill="#718096" text-anchor="middle">Baño</text>
+
+      <!-- Devices -->
+      <g>
+        @for (device of devices(); track device.deviceId) {
+          <g 
+            [attr.transform]="'translate(' + device.position.x + ',' + device.position.y + ')'"
+            (mouseover)="onDeviceMouseOver(device)"
+            (mouseout)="onDeviceMouseOut()"
+            class="cursor-pointer">
+            <svg 
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24" 
+              width="24"
+              height="24"
+              [class]="getStatusColorClass(device.status)"
+              [class.device-pulse]="device.status === 'on'"
+              fill="currentColor"
+              [attr.x]="-12"
+              [attr.y]="-12">
+              <path [attr.d]="getIconPath(device.icon)"></path>
+            </svg>
+          </g>
+        }
+      </g>
+    </svg>
+  </div>
+    
+  <!-- Tooltip -->
+  @if (hoveredDevice(); as device) {
+    <div 
+      class="absolute bg-gray-800 text-white text-sm rounded-lg px-3 py-2 shadow-lg pointer-events-none transition-opacity duration-200"
+      [style.left.px]="device.position.x + 15"
+      [style.top.px]="device.position.y - 15">
+      <p class="font-semibold">{{ device.deviceName }}</p>
+      <p>{{ device.currentWattage }} W</p>
+    </div>
+  }
+</div>

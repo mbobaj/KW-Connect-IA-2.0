@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Device } from './power.types';
+import { Device, DeviceStatus } from './power.types';
 
 // Helper to generate UUIDs
 function generateUUID() {
@@ -20,14 +20,15 @@ const USAGE_PATTERNS = {
 };
 
 const INITIAL_DEVICES: Device[] = [
-  { deviceId: generateUUID(), deviceName: 'Refrigerador', status: 'on', currentWattage: 150, todayKWh: 1.8, hourlyHistoryKWh: USAGE_PATTERNS.ALWAYS_ON.map(p => p * 0.1), icon: 'fridge', baseWattage: 150 },
-  { deviceId: generateUUID(), deviceName: 'Aire Acondicionado', status: 'off', currentWattage: 0, todayKWh: 3.5, hourlyHistoryKWh: USAGE_PATTERNS.SUMMER_AC.map(p => p * 1.5), icon: 'ac', baseWattage: 2000 },
-  { deviceId: generateUUID(), deviceName: 'Televisor Living', status: 'standby', currentWattage: 2, todayKWh: 0.4, hourlyHistoryKWh: USAGE_PATTERNS.EVENING_PEAK.map(p => p * 0.12), icon: 'tv', baseWattage: 120 },
-  { deviceId: generateUUID(), deviceName: 'Luces Living', status: 'off', currentWattage: 0, todayKWh: 0.2, hourlyHistoryKWh: USAGE_PATTERNS.EVENING_PEAK.map(p => p * 0.06), icon: 'lights', baseWattage: 60 },
-  { deviceId: generateUUID(), deviceName: 'Microondas', status: 'standby', currentWattage: 1, todayKWh: 0.1, hourlyHistoryKWh: USAGE_PATTERNS.INTERMITTENT.map(p => p * 0.05), icon: 'microwave', baseWattage: 900 },
-  { deviceId: generateUUID(), deviceName: 'Computador', status: 'on', currentWattage: 250, todayKWh: 1.2, hourlyHistoryKWh: USAGE_PATTERNS.DAY_TIME.map(p => p * 0.25), icon: 'computer', baseWattage: 250 },
-  { deviceId: generateUUID(), deviceName: 'Hervidor', status: 'standby', currentWattage: 1, todayKWh: 0.3, hourlyHistoryKWh: USAGE_PATTERNS.INTERMITTENT.map(p => p * 0.1), icon: 'kettle', baseWattage: 1800 },
-  { deviceId: generateUUID(), deviceName: 'Lavadora', status: 'off', currentWattage: 0, todayKWh: 0.8, hourlyHistoryKWh: Array(24).fill(0).map((_, i) => (i > 9 && i < 12) ? Math.random() * 0.5 : 0), icon: 'washing-machine', baseWattage: 500 },
+  // Datos actualizados para reflejar electrodomésticos eficientes de 2025 en Chile.
+  { deviceId: generateUUID(), deviceName: 'Refrigerador', status: 'on', currentWattage: 120, todayKWh: 1.8, hourlyHistoryKWh: USAGE_PATTERNS.ALWAYS_ON.map(p => p * 0.12), icon: 'fridge', baseWattage: 120, standbyWattage: 2, position: { x: 350, y: 70 } },
+  { deviceId: generateUUID(), deviceName: 'Aire Acondicionado', status: 'off', currentWattage: 0, todayKWh: 3.5, hourlyHistoryKWh: USAGE_PATTERNS.SUMMER_AC.map(p => p * 1.1), icon: 'ac', baseWattage: 1100, standbyWattage: 1, position: { x: 200, y: 20 } },
+  { deviceId: generateUUID(), deviceName: 'Televisor Living', status: 'standby', currentWattage: 0.5, todayKWh: 0.4, hourlyHistoryKWh: USAGE_PATTERNS.EVENING_PEAK.map(p => p * 0.075), icon: 'tv', baseWattage: 75, standbyWattage: 0.5, position: { x: 200, y: 150 } },
+  { deviceId: generateUUID(), deviceName: 'Luces Living', status: 'off', currentWattage: 0, todayKWh: 0.2, hourlyHistoryKWh: USAGE_PATTERNS.EVENING_PEAK.map(p => p * 0.05), icon: 'lights', baseWattage: 50, standbyWattage: 0, position: { x: 200, y: 80 } },
+  { deviceId: generateUUID(), deviceName: 'Microondas', status: 'standby', currentWattage: 2, todayKWh: 0.1, hourlyHistoryKWh: USAGE_PATTERNS.INTERMITTENT.map(p => p * 0.08), icon: 'microwave', baseWattage: 1300, standbyWattage: 2, position: { x: 350, y: 150 } },
+  { deviceId: generateUUID(), deviceName: 'Computador', status: 'on', currentWattage: 250, todayKWh: 1.2, hourlyHistoryKWh: USAGE_PATTERNS.DAY_TIME.map(p => p * 0.25), icon: 'computer', baseWattage: 250, standbyWattage: 5, position: { x: 80, y: 180 } },
+  { deviceId: generateUUID(), deviceName: 'Hervidor', status: 'standby', currentWattage: 1, todayKWh: 0.3, hourlyHistoryKWh: USAGE_PATTERNS.INTERMITTENT.map(p => p * 0.12), icon: 'kettle', baseWattage: 1800, standbyWattage: 1, position: { x: 350, y: 110 } },
+  { deviceId: generateUUID(), deviceName: 'Lavadora', status: 'off', currentWattage: 0, todayKWh: 0.8, hourlyHistoryKWh: Array(24).fill(0).map((_, i) => (i > 9 && i < 12) ? Math.random() * 0.5 : 0), icon: 'washing-machine', baseWattage: 500, standbyWattage: 1.5, position: { x: 350, y: 200 } },
 ];
 
 @Injectable({
@@ -71,7 +72,8 @@ export class PowerService {
           const fluctuation = (Math.random() - 0.5) * 0.1; // +/- 5% random fluctuation
           newWattage = device.baseWattage * usageMultiplier * (1 + fluctuation);
         } else if (device.status === 'standby') {
-          newWattage = device.currentWattage; // Keep it constant, it's defined in INITIAL_DEVICES
+          const fluctuation = (Math.random() - 0.5) * 0.05; // +/- 2.5%
+          newWattage = device.standbyWattage * (1 + fluctuation);
         } else { // 'off'
           newWattage = 0;
         }
@@ -86,20 +88,21 @@ export class PowerService {
     );
   }
 
-  toggleDeviceStatus(deviceName: string): void {
+  setDeviceStatus(deviceId: string, status: DeviceStatus): void {
     this.devices.update(currentDevices =>
       currentDevices.map(device => {
-        if (device.deviceName === deviceName) {
-          const newStatus = device.status === 'on' ? 'off' : 'on';
+        if (device.deviceId === deviceId) {
           let newWattage = 0;
-          if (newStatus === 'on') {
+          if (status === 'on') {
               const currentHour = new Date().getHours();
               const pattern = this.getUsagePattern(device.deviceName);
               const usageMultiplier = pattern[currentHour];
               newWattage = device.baseWattage * usageMultiplier;
+          } else if (status === 'standby') {
+              newWattage = device.standbyWattage;
           }
-          // Standby devices don't have a toggle, so we only switch between on/off
-          return { ...device, status: newStatus, currentWattage: newWattage };
+          // for 'off', newWattage remains 0
+          return { ...device, status, currentWattage: newWattage };
         }
         return device;
       })
