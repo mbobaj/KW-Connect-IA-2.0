@@ -11,4 +11,7 @@ export interface Device {
   baseWattage: number;
   standbyWattage: number;
   position: { x: number; y: number }; // Coordinates for the house layout
+  supabaseId?: string; // Maps to device_id in Supabase
+  temperature?: number;
+  humidity?: number;
 }

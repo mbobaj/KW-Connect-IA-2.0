@@ -6,6 +6,8 @@
         <tr class="border-b border-gray-200">
           <th class="p-2 sm:p-4 text-sm font-medium text-gray-500">Dispositivo</th>
           <th class="p-2 sm:p-4 text-sm font-medium text-gray-500 text-center">Consumo</th>
+          <th class="p-2 sm:p-4 text-sm font-medium text-gray-500 text-center">Temp.</th>
+          <th class="p-2 sm:p-4 text-sm font-medium text-gray-500 text-center">Humedad</th>
           <th class="p-2 sm:p-4 text-sm font-medium text-gray-500 text-center">Estado</th>
           <th class="p-2 sm:p-4 text-sm font-medium text-gray-500 text-center">Acción</th>
         </tr>
@@ -23,6 +25,20 @@
             </td>
             <td class="p-2 sm:p-4 text-center text-gray-900">
               {{ device.currentWattage }} W
+            </td>
+            <td class="p-2 sm:p-4 text-center text-sm text-gray-800">
+              @if (device.temperature !== undefined && device.temperature !== null) {
+                <span>{{ device.temperature.toFixed(1) }} °C</span>
+              } @else {
+                <span class="text-gray-400">-</span>
+              }
+            </td>
+            <td class="p-2 sm:p-4 text-center text-sm text-gray-800">
+              @if (device.humidity !== undefined && device.humidity !== null) {
+                <span>{{ device.humidity.toFixed(0) }} %</span>
+              } @else {
+                <span class="text-gray-400">-</span>
+              }
             </td>
             <td class="p-2 sm:p-4 text-center">
               <span class="px-3 py-1 text-xs font-semibold rounded-full capitalize" [class]="getStatusColor(device.status)">

@@ -1,5 +1,6 @@
-import { Component, ChangeDetectionStrategy, computed, inject } from '@angular/core';
+import { Component, ChangeDetectionStrategy, computed, inject, signal } from '@angular/core';
 import { PowerService } from './services/power.service';
+import { SupabaseService } from './services/supabase.service';
 import { HeaderComponent } from './components/header/header.component';
 import { KpiCardComponent } from './components/kpi-card/kpi-card.component';
 import { HistoryChartComponent } from './components/history-chart/history-chart.component';
@@ -7,6 +8,7 @@ import { BreakdownChartComponent } from './components/breakdown-chart/breakdown-
 import { DeviceListComponent } from './components/device-list/device-list.component';
 import { HouseLayoutComponent } from './components/house-layout/house-layout.component';
 import { DeviceStatus } from './services/power.types';
+import { SupabaseReadingsComponent } from './components/supabase-readings/supabase-readings.component';
 
 @Component({
   selector: 'app-root',
@@ -16,15 +18,19 @@ import { DeviceStatus } from './services/power.types';
     HistoryChartComponent,
     BreakdownChartComponent,
     DeviceListComponent,
-    HouseLayoutComponent
+    HouseLayoutComponent,
+    SupabaseReadingsComponent
   ],
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
   private powerService = inject(PowerService);
+  supabaseService = inject(SupabaseService);
   private CLP_PER_KWH = 190;
 
+  currentView = signal<'dashboard' | 'supabaseReadings'>('dashboard');
+  
   devices = this.powerService.devices;
 
   // KPI Computations
@@ -95,5 +101,9 @@ export class AppComponent {
   
   handleSetDeviceStatus(event: {deviceId: string, status: DeviceStatus}) {
     this.powerService.setDeviceStatus(event.deviceId, event.status);
+  }
+
+  setView(view: 'dashboard' | 'supabaseReadings') {
+    this.currentView.set(view);
   }
 }
