@@ -31,7 +31,7 @@ export class SupabaseService {
   /**
    * Fetches the most recent readings from the table.
    */
-  private async getInitialReadings(): Promise<void> {
+  public async getInitialReadings(): Promise<void> {
     const { data, error } = await this.supabase
       .from('device_readings')
       .select('id, device_id, temp_c, humidity, created_at')
@@ -44,6 +44,13 @@ export class SupabaseService {
     }
     
     this.readingsSignal.set(data as DeviceReading[]);
+  }
+
+  /**
+   * Clears the current list of readings from the signal.
+   */
+  public clearReadings(): void {
+    this.readingsSignal.set([]);
   }
   
   /**

@@ -1,6 +1,6 @@
-import { Component, ChangeDetectionStrategy, input, signal, computed } from '@angular/core';
+import { Component, ChangeDetectionStrategy, input, signal, computed, inject } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { DeviceReading } from '../../services/supabase.service';
+import { DeviceReading, SupabaseService } from '../../services/supabase.service';
 
 @Component({
   selector: 'app-supabase-readings',
@@ -10,6 +10,7 @@ import { DeviceReading } from '../../services/supabase.service';
 })
 export class SupabaseReadingsComponent {
   readings = input.required<DeviceReading[]>();
+  private supabaseService = inject(SupabaseService);
 
   // State for filtering and sorting
   startDate = signal('');
@@ -78,5 +79,11 @@ export class SupabaseReadingsComponent {
   clearFilters() {
     this.startDate.set('');
     this.endDate.set('');
+    this.supabaseService.clearReadings();
+    this.supabaseService.getInitialReadings();
+  }
+
+  onRefresh() {
+    this.supabaseService.getInitialReadings();
   }
 }

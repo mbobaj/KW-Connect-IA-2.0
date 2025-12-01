@@ -1,13 +1,20 @@
+
 import '@angular/compiler';
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { provideZonelessChangeDetection, LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import localeEsCl from 'https://next.esm.sh/@angular/common@^20.3.12/locales/es-CL?external=rxjs';
+
 import { AppComponent } from './src/app.component';
+
+// Register the locale data required for the 'es-CL' locale.
+registerLocaleData(localeEsCl);
 
 bootstrapApplication(AppComponent, {
   providers: [
     provideZonelessChangeDetection(),
-    provideAnimations(),
+    provideNoopAnimations(), // Use NoopAnimations to prevent renderer injection errors with ngx-charts
     { provide: LOCALE_ID, useValue: 'es-CL' }
   ]
 }).catch(err => console.error(err));
