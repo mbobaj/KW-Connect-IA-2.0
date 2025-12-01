@@ -9,6 +9,7 @@ import { DeviceListComponent } from './components/device-list/device-list.compon
 import { HouseLayoutComponent } from './components/house-layout/house-layout.component';
 import { DeviceStatus } from './services/power.types';
 import { SupabaseReadingsComponent } from './components/supabase-readings/supabase-readings.component';
+import { AiAssistantComponent } from './components/ai-assistant/ai-assistant.component';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,8 @@ import { SupabaseReadingsComponent } from './components/supabase-readings/supaba
     BreakdownChartComponent,
     DeviceListComponent,
     HouseLayoutComponent,
-    SupabaseReadingsComponent
+    SupabaseReadingsComponent,
+    AiAssistantComponent
   ],
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,7 +31,7 @@ export class AppComponent {
   supabaseService = inject(SupabaseService);
   private CLP_PER_KWH = 190;
 
-  currentView = signal<'dashboard' | 'supabaseReadings'>('dashboard');
+  currentView = signal<'dashboard' | 'supabaseReadings' | 'aiAssistant'>('dashboard');
   
   devices = this.powerService.devices;
 
@@ -103,7 +105,7 @@ export class AppComponent {
     this.powerService.setDeviceStatus(event.deviceId, event.status);
   }
 
-  setView(view: 'dashboard' | 'supabaseReadings') {
+  setView(view: 'dashboard' | 'supabaseReadings' | 'aiAssistant') {
     this.currentView.set(view);
   }
 }
