@@ -4,7 +4,7 @@ import { bootstrapApplication } from '@angular/platform-browser';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 import { provideZonelessChangeDetection, LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
-import localeEsCl from 'https://next.esm.sh/@angular/common@^20.3.12/locales/es-CL?external=rxjs';
+import localeEsCl from '@angular/common/locales/es-CL';
 
 import { AppComponent } from './src/app.component';
 
