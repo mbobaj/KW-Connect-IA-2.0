@@ -19,7 +19,7 @@ export class HistoryChartComponent {
 
   // Chart options for a cleaner, Material You-inspired look
   legend: boolean = false;
-  animations: boolean = true;
+  animations: boolean = false;
   xAxis: boolean = true;
   yAxis: boolean = true;
   showYAxisLabel: boolean = true; // Show label for better context

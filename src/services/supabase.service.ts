@@ -58,17 +58,21 @@ export class SupabaseService {
    */
   private subscribeToNewReadings(): RealtimeChannel {
     const channel = this.supabase
-      .channel('device_readings_insert')
+      .channel('realtime:public:device_readings') // Use a more conventional and descriptive channel name
       .on<DeviceReading>(
         'postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'device_readings' },
+        { event: '*', schema: 'public', table: 'device_readings' }, // Listen to all events for robustness
         (payload) => {
-          console.log('New Supabase reading received:', payload.new);
-          this.readingsSignal.update(currentReadings => {
-            const newReadings = [payload.new as DeviceReading, ...currentReadings];
-            // Keep the list to a maximum of 50 items for performance
-            return newReadings.slice(0, 50); 
-          });
+          console.log('Supabase change received:', payload);
+          // Handle INSERT
+          if (payload.eventType === 'INSERT') {
+            this.readingsSignal.update(currentReadings => {
+              const newReadings = [payload.new as DeviceReading, ...currentReadings];
+              // Keep the list to a maximum of 50 items for performance
+              return newReadings.slice(0, 50); 
+            });
+          }
+          // Here you could also handle UPDATE and DELETE if needed
         }
       )
       .subscribe((status, err) => {
@@ -76,7 +80,12 @@ export class SupabaseService {
           console.log('Successfully subscribed to Supabase real-time updates!');
         }
         if (status === 'CHANNEL_ERROR' || err) {
-          console.error('Supabase subscription error:', err);
+          console.error('Supabase subscription error:', err || 'Unknown error');
+          console.error(
+            'This might be due to your Supabase project configuration. Please check the following:\n' +
+            '1. Realtime is enabled for the `device_readings` table in your Supabase dashboard (Database > Replication).\n' +
+            '2. Row Level Security (RLS) policies allow the `anon` role to SELECT from the table.'
+          );
         }
       });
       
