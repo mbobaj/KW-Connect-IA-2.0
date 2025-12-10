@@ -2,19 +2,43 @@
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-# Run and deploy your AI Studio app
+# KW-Connect IA 2.0 ⚡  
+Aplicación creada con **Google AI Apps Studio** y adaptada a Angular para monitorear y analizar el **consumo eléctrico en tiempo real**, utilizando **Supabase** y una asistente de IA llamada **Ki-Wa**.
 
-This contains everything you need to run your app locally.
+---
 
-View your app in AI Studio: https://ai.studio/apps/drive/1KTdSPb_zy9FVUXtHqcMSCu6x_kvk8-0o
+## 🌐 Demo en producción  
+👉 https://kw-connect-ia-2-0-sigma.vercel.app/
 
-## Run Locally
+---
 
-**Prerequisites:**  Node.js
+# 📝 Descripción  
+**KW-Connect IA 2.0** permite a los usuarios visualizar sus datos de consumo eléctrico en tiempo real, analizar tendencias y recibir recomendaciones inteligentes mediante IA para mejorar su eficiencia energética.
 
+### 🔌 Funciones principales
+- Dashboard dinámico de consumo eléctrico  
+- Datos en tiempo real desde **Supabase Realtime**  
+- Gráficos y métricas actualizadas automáticamente  
+- Asistente IA **Ki-Wa** para análisis, explicaciones y recomendaciones  
+- Deploy contínuo con **Vercel**  
+- Localización en español (CL)
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+---
+
+# 🛠️ Tecnologías utilizadas
+- Angular (generado desde Google AI Apps Studio)
+- Supabase (Realtime + REST)
+- Gemini API (IA Asistente)
+- TypeScript
+- Vercel
+
+---
+
+# ⚙️ Ejecutar localmente
+
+**Requisitos:** Node.js 18+
+
+### 1. Instalar dependencias
+```bash
+npm install
+
