@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, input, signal, inject, ViewChild, ElementRef, afterNextRender } from '@angular/core';
 import { GeminiService } from '../../services/gemini.service';
 import { Device } from '../../services/power.types';
+import { AnalysisContext } from '../../services/gemini.types';
 
 interface Message {
   role: 'user' | 'bot';
@@ -13,7 +14,7 @@ interface Message {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AiAssistantComponent {
-  devices = input.required<Device[]>();
+  analysisContext = input.required<AnalysisContext>();
   private geminiService = inject(GeminiService);
   
   @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
@@ -55,7 +56,7 @@ export class AiAssistantComponent {
     this.isLoading.set(true);
     this.scrollToBottom();
     
-    const botResponse = await this.geminiService.analyzeConsumption(this.devices());
+    const botResponse = await this.geminiService.analyzeConsumption(this.analysisContext());
     this.messages.update(m => [...m, { role: 'bot', content: botResponse }]);
     this.isLoading.set(false);
     this.scrollToBottom();
@@ -79,7 +80,7 @@ export class AiAssistantComponent {
     this.isLoading.set(true);
     this.scrollToBottom();
 
-    const botResponse = await this.geminiService.getHighestConsumer(this.devices());
+    const botResponse = await this.geminiService.getHighestConsumer(this.analysisContext().devices);
     this.messages.update(m => [...m, { role: 'bot', content: botResponse }]);
     this.isLoading.set(false);
     this.scrollToBottom();
@@ -91,7 +92,7 @@ export class AiAssistantComponent {
     this.isLoading.set(true);
     this.scrollToBottom();
 
-    const botResponse = await this.geminiService.getStandbyOptimization(this.devices());
+    const botResponse = await this.geminiService.getStandbyOptimization(this.analysisContext().devices);
     this.messages.update(m => [...m, { role: 'bot', content: botResponse }]);
     this.isLoading.set(false);
     this.scrollToBottom();

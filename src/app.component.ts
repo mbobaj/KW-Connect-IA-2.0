@@ -9,6 +9,8 @@ import { DeviceListComponent } from './components/device-list/device-list.compon
 import { HouseLayoutComponent } from './components/house-layout/house-layout.component';
 import { DeviceStatus } from './services/power.types';
 import { SupabaseReadingsComponent } from './components/supabase-readings/supabase-readings.component';
+import { AiAssistantComponent } from './components/ai-assistant/ai-assistant.component';
+import { AnalysisContext } from './services/gemini.types';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +21,8 @@ import { SupabaseReadingsComponent } from './components/supabase-readings/supaba
     BreakdownChartComponent,
     DeviceListComponent,
     HouseLayoutComponent,
-    SupabaseReadingsComponent
+    SupabaseReadingsComponent,
+    AiAssistantComponent
   ],
   templateUrl: './app.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -29,7 +32,7 @@ export class AppComponent {
   supabaseService = inject(SupabaseService);
   private CLP_PER_KWH = 190;
 
-  currentView = signal<'dashboard' | 'supabaseReadings'>('dashboard');
+  currentView = signal<'dashboard' | 'supabaseReadings' | 'aiAssistant'>('dashboard');
   
   devices = this.powerService.devices;
 
@@ -78,6 +81,21 @@ export class AppComponent {
       .filter(d => d.status === 'on' && d.currentWattage > 0)
       .map(d => ({ name: d.deviceName, value: d.currentWattage }));
   });
+  
+  // Context for AI analysis
+  aiAnalysisContext = computed((): AnalysisContext => {
+    return {
+      kpis: {
+        currentConsumptionKW: parseFloat(this.kpiCurrentConsumption()),
+        totalTodayKWh: parseFloat(this.kpiTotalToday()),
+        estimatedMonthlyCostCLP: parseInt(this.kpiMonthlyCost().replace(/\./g, ''), 10),
+        peakToday: this.kpiPeakToday(),
+      },
+      devices: this.devices(),
+      aggregate24hHistory: this.getAggregateHourlyHistory(),
+    };
+  });
+
 
   private getAggregateHourlyHistory() {
     const aggregate = new Array(24).fill(0);
@@ -103,7 +121,7 @@ export class AppComponent {
     this.powerService.setDeviceStatus(event.deviceId, event.status);
   }
 
-  setView(view: 'dashboard' | 'supabaseReadings') {
+  setView(view: 'dashboard' | 'supabaseReadings' | 'aiAssistant') {
     this.currentView.set(view);
   }
 }
